@@ -5,7 +5,7 @@ import seaborn as sns
 from temp_diffeq import dTdt, outside_temperature, SECONDS_PER_DAY
 from pathlib import Path
 
-OUTPUT_DIR = Path(__file__).parent.parent / "output"
+OUTPUT_DIR = Path(__file__).parent.parent / "paper"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 """Plot setup"""
