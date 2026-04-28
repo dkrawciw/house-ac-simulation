@@ -2,7 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 import seaborn as sns
-from temp_diffeq import dTdt, outside_temperature, SECONDS_PER_DAY
+from temp_diffeq import (
+    SECONDS_PER_DAY,
+    build_noisy_outside_temperature,
+    dTdt,
+)
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "paper"
@@ -36,9 +40,11 @@ K = abs((K + K.T) / 2)                      # Make it symmetric an positive
 
 
 T_0 = np.random.normal(70, 5, num_rooms)
+rng = np.random.default_rng(0)
+outside_temperature = build_noisy_outside_temperature(noise_std=1.0, rng=rng)
 
 t_eval = np.linspace(0, SECONDS_PER_DAY, 500)
-dTdt_wrapper = lambda t, T: dTdt(t, T, num_rooms, k_w, alpha, B, cool_air_temp, K)
+dTdt_wrapper = lambda t, T: dTdt(t, T, num_rooms, k_w, alpha, B, cool_air_temp, K, outside_temperature)
 sol = solve_ivp(dTdt_wrapper, (0, SECONDS_PER_DAY), T_0, t_eval=t_eval, method='BDF')
 
 """Plotting the Room Input"""
