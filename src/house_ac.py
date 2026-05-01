@@ -144,7 +144,7 @@ def create_default_model(
     )
 
 
-def simulate_default(seed: int = 0, num_time_points: int = 500) -> SimulationResult:
+def simulate_default(seed: int = 0, num_time_points: int = 5000000) -> SimulationResult:
     rng = np.random.default_rng(seed)
     model = create_default_model(rng=rng)
     initial_temperatures = rng.normal(70, 5, model.num_rooms)
